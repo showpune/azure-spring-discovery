@@ -7,6 +7,7 @@ import (
 	"flag"
 	"fmt"
 
+	"microsoft.com/azure-spring-discovery/api/logging"
 	"microsoft.com/azure-spring-discovery/api/v1alpha1"
 	"microsoft.com/azure-spring-discovery/core"
 )
@@ -21,7 +22,7 @@ func main() {
 	flag.StringVar(&password, "password", "", "Password for ssh login")
 	flag.IntVar(&port, "port", 0, "The ssh port")
 	flag.Parse()
-
+	azureLogger := logging.GetAzureLogger(context.Background())
 	var serverObj = v1alpha1.SpringBootServer{
 		Spec: v1alpha1.SpringBootServerSpec{
 			Server: server,
@@ -36,7 +37,7 @@ func main() {
 
 	apps, err := executor.Discover(context.Background(), &serverObj)
 	if err != nil {
-		panic(err)
+		azureLogger.Error(err, "Failed to discover apps")
 	}
 
 	var specs []v1alpha1.SpringBootAppSpec

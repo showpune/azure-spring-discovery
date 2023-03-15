@@ -11,16 +11,16 @@ type CustomLogger struct {
 }
 
 func GetAzureLogger(ctx context.Context, annotationsMaps ...map[string]string) *CustomLogger {
-	c := &CustomLogger{logr.Logger{}}
+	c := &CustomLogger{logr.FromContextOrDiscard(ctx)}
 	return c
 }
 
 func (c *CustomLogger) Info(msg string, keysAndValues ...interface{}) {
-	c.logr.V(0).Info(msg, keysAndValues...)
+	c.logr.Info(msg, keysAndValues...)
 }
 
 func (c *CustomLogger) Debug(msg string, keysAndValues ...interface{}) {
-	c.logr.V(1).Info(msg, keysAndValues...)
+	c.logr.Info(msg, keysAndValues...)
 }
 
 func (c *CustomLogger) Error(err error, msg string, keysAndValues ...interface{}) {
