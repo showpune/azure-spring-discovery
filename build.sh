@@ -1,5 +1,6 @@
+rm discovery-l
 GOOS=linux 
-echo $GOOS
 GOARCH=amd64
-echo $GOARCH
-go build -o discovery cli/main.go
+echo "Building discovery with GOOS=$GOOS GOARCH=$GOARCH"
+go build -mod=mod -o discovery-l cli/main.go
+
